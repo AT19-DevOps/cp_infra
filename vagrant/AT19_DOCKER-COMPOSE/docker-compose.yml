@@ -1,0 +1,68 @@
+#
+# @docker-compose Copyright (c) 2022 Jalasoft.
+# 2643 Av Melchor Perez de Olguin, Colquiri Sud, Cochabamba, Bolivia.
+# All rights reserved.
+#
+# This software is the confidential and proprietary information of
+# Jalasoft, ("Confidential Information"). You shall not
+# disclose such Confidential Information and shall use it only in
+# accordance with the terms of the license agreement you entered into
+# with Jalasoft.
+#
+  
+
+version: '3.3'
+services:
+  db:
+    image: mysql
+    container_name: db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: converter_db
+    ports:
+      - "3308:3306"
+    network_mode: bridge
+
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:latest
+    restart: always
+    environment:
+      PMA_HOST: db
+      PMA_USER: root
+      PMA_PASSWORD: root
+    ports:
+      - "8080:80"
+    network_mode: bridge 
+    links: 
+      - db
+
+
+  convfrontend:
+    container_name: convfrontend
+    image: conv_frontend
+    build:
+      context: .
+      dockerfile: AT19_FRONTEND_CONVERT/dockerfile
+    ports:
+      - "5017:5017"
+    network_mode: bridge 
+      
+
+  convbackend:
+    container_name: convbackend
+    restart: always
+    image: conv_backend
+    build:
+      context: .
+      dockerfile: AT19_CONVERTER/dockerfile
+    ports:
+      - "5000:5000"
+    network_mode: bridge 
+    depends_on:
+      - db 
+
+
+
+

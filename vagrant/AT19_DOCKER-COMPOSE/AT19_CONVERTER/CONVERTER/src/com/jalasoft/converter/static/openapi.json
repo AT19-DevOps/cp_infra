@@ -1,0 +1,1438 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Convert and Recognition Studio",
+    "description": "<b>C&R Studio</b>. Is a simple, smart and elegant tool with a lot utilities to manipulate multimedia files that are used in daily life. This is the only Converter that has such a wide range of unit conversion utilities with very simple and easy to use interface.<br><hr> <ul>\n  <sub>Developed for Jala University (2023) by:</sub>\n  <b><h3>AT19 Team - International</h3></b>\n  <li>&#127463&#127476 Carolina Vacaflor Nina</li>\n  <li>&#127462&#127479 Celeste Palet Arias</li>\n  <li>&#127463&#127476 Daniel Villarroel Chanlopkova</li>\n  <li>&#127463&#127476 David Garnica Morales</li>\n  <li>&#127463&#127476 Denisse Cordoba Sanabria</li>\n  <li>&#127464&#127476 Fabian Cabrejo Arias</li>\n  <li>&#127464&#127476 Leonardo Pacheco Carrillo</li>\n  <li>&#127463&#127476 Maria Mamani Cruz</li>\n  <li>&#127463&#127476 Martin Alvarez Alcoreza</li>\n  <li>&#127462&#127479 Rocio Morales</li>\n  <li>&#127463&#127476 Roger Renjifo Tarquino</li>\n  <li>&#127463&#127476 Selmi Muraña Cayo</li>\n  <li>&#127463&#127476 Telma Rios Fernandez</li>\n  <br><sub>Under supervision of the Trainer:</sub>\n  <br>Paolo Sandoval\n</ul> <hr>",
+    "contact": {
+      "name": "AT19 Support",
+      "url": "http://www.converter.com/support",
+      "email": "support@jala.university"
+    },
+    "version": "1.0.11"
+  },
+  "servers": [
+    {
+      "url": "http://192.168.33.60:5000/",
+      "description": "Converter"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Login",
+      "description": ""
+    },
+    {
+      "name": "Download",
+      "description": "Utility to download files from Converter server."
+    },
+    {
+      "name": "Video Converter",
+      "description": "Converts a video to a sequence of images and returns a compressed ZIP file.",
+      "externalDocs": {
+        "description": "Go to our web site",
+        "url": "http://converter.com/video"
+      }
+    },
+    {
+      "name": "Image Converter",
+      "description": "Converts any image format into another image format.",
+      "externalDocs": {
+        "description": "Go to our web site",
+        "url": "http://converter.com/image"
+      }
+    },
+    {
+      "name": "PDF Utility",
+      "description": "Converts a PDF format file into a specified image format and viceversa.",
+      "externalDocs": {
+        "description": "Go to our web site",
+        "url": "http://converter.com/pdf"
+      }
+    },
+    {
+      "name": "Audio Converter",
+      "description": "Converts audio format file into another audio format and other options.",
+      "externalDocs": {
+        "description": "Go to our web site",
+        "url": "http://converter.com/audio"
+      }
+    },
+    {
+      "name": "Text Translator",
+      "description": "It Translates any text into specified language."
+    },
+    {
+      "name": "Get Metadata",
+      "description": "Gets metadata information from any file."
+    }
+  ],
+  "paths": {
+    "/login": {
+      "post": {
+        "tags": [
+          "Login"
+        ],
+        "summary": "Login",
+        "description": "login user",
+        "operationId": "get.login",
+        "requestBody": {
+          "description": "login user",
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/login"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Token generated succesfully",
+            "content": {
+              "application/zip": {
+                "schema": {
+                  "type": "string",
+                  "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9eyJ1c2VyX25hbWUiOiJjb252ZXJ0ZXJfdXNlciIsImV4cCI6MTY3NjE4MTQ4Nn03xzqOBirpO83-bcsKdHR2ynvw78y3KZZiPvRVeyniY"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/download": {
+      "get": {
+        "tags": [
+          "Download"
+        ],
+        "summary": "Downloads a file.",
+        "description": "",
+        "operationId": "get.download",
+        "parameters": [
+          {
+            "name": "file_name",
+            "in": "query",
+            "description": "Please choose the file to download:",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string",
+              "format": "binary",
+              "example": "ZmlsZV90b19kb3dubG9hZC56aXA="
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Download link was generated succesfuly.",
+            "content": {
+              "application/zip": {
+                "schema": {
+                  "$ref": "#/components/schemas/download"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "File not found in this server."
+          }
+        }
+      }
+    },
+    "/videotoimage/zip": {
+      "post": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "tags": [
+          "Video Converter"
+        ],
+        "summary": "Extracts and compress images from a video into a zip file.",
+        "description": "",
+        "operationId": "post.videotoimages",
+        "requestBody": {
+          "description": "Choose the video to convert, the output format and the number of images per second.",
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/videotoimages"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Convertion process finished succesfully",
+            "content": {
+              "application/zip": {
+                "schema": {
+                  "$ref": "#/components/schemas/download"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid supplied file."
+          },
+          "404": {
+            "description": "File not found."
+          },
+          "500": {
+            "description": "Lost communication with the server."
+          }
+        }
+      }
+    },
+    "/videotovideo": {
+      "post": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "tags": [
+          "Video Converter"
+        ],
+        "summary": "Converts video format.",
+        "description": "",
+        "operationId": "post.videotovideo",
+        "requestBody": {
+          "description": "Choose the video to convert and the output format.",
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/videotovideo"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Convertion process finished succesfully",
+            "content": {
+              "application/zip": {
+                "schema": {
+                  "$ref": "#/components/schemas/download"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid supplied file."
+          },
+          "404": {
+            "description": "File not found."
+          },
+          "500": {
+            "description": "Lost communication with the server."
+          }
+        }
+      }
+    },
+    "/imagetoimage": {
+      "post": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "tags": [
+          "Image Converter"
+        ],
+        "summary": "Convert image to another type of image",
+        "description": "",
+        "operationId": "post.imagetoimages",
+        "requestBody": {
+          "description": "Choose the image file to converrt and specify the output format:",
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/image"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Convertion process finished succesfully",
+            "content": {
+              "application/zip": {
+                "schema": {
+                  "$ref": "#/components/schemas/download"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid supplied file."
+          },
+          "404": {
+            "description": "File not found."
+          },
+          "500": {
+            "description": "Lost communication with the server."
+          }
+        }
+      }
+    },
+    "/imageflip": {
+      "post": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "tags": [
+          "Image Converter"
+        ],
+        "summary": "Converts an image into a flipped image.",
+        "description": "",
+        "operationId": "post.imageflip",
+        "requestBody": {
+          "description": "Please insert the image to flip:",
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/image"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Convertion process finished succesfully",
+            "content": {
+              "application/zip": {
+                "schema": {
+                  "$ref": "#/components/schemas/download"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid supplied file."
+          },
+          "404": {
+            "description": "File not found."
+          },
+          "500": {
+            "description": "Lost communication with the server."
+          }
+        }
+      }
+    },
+    "/imagebw": {
+      "post": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "tags": [
+          "Image Converter"
+        ],
+        "summary": "Converts an image into black and white image",
+        "description": "",
+        "operationId": "post.imagebw",
+        "requestBody": {
+          "description": "Please upload an image to convert to black and white:",
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/image"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Convertion process finished succesfully",
+            "content": {
+              "application/zip": {
+                "schema": {
+                  "$ref": "#/components/schemas/download"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid supplied file."
+          },
+          "404": {
+            "description": "File not found."
+          },
+          "500": {
+            "description": "Lost communication with the server."
+          }
+        }
+      }
+    },
+    "/imageresize": {
+      "post": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "tags": [
+          "Image Converter"
+        ],
+        "summary": "Resizes an image",
+        "description": "",
+        "operationId": "post.imageresize",
+        "requestBody": {
+          "description": "Choose an image to resize:",
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/imageresize"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Convertion process finished succesfully",
+            "content": {
+              "application/zip": {
+                "schema": {
+                  "$ref": "#/components/schemas/download"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid supplied file."
+          },
+          "404": {
+            "description": "File not found."
+          },
+          "500": {
+            "description": "Lost communication with the server."
+          }
+        }
+      }
+    },
+    "/imagerotate": {
+      "post": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "tags": [
+          "Image Converter"
+        ],
+        "summary": "Rotates an image specified n-degrees.",
+        "description": "",
+        "operationId": "post.imagerotate",
+        "requestBody": {
+          "description": "Choose an image to rotate:",
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/imagerotate"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Convertion process finished succesfully",
+            "content": {
+              "application/zip": {
+                "schema": {
+                  "$ref": "#/components/schemas/download"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid supplied file."
+          },
+          "404": {
+            "description": "File not found."
+          },
+          "500": {
+            "description": "Lost communication with the server."
+          }
+        }
+      }
+    },
+    "/imagetopdf": {
+      "post": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "tags": [
+          "PDF Utility"
+        ],
+        "summary": "Converts an image into PDF format file.",
+        "description": "",
+        "operationId": "post.imagetopdf",
+        "requestBody": {
+          "description": "Please upload an image to covert:",
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/imagetopdf"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Convertion process finished succesfully",
+            "content": {
+              "application/zip": {
+                "schema": {
+                  "$ref": "#/components/schemas/download"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid supplied file."
+          },
+          "404": {
+            "description": "File not found."
+          },
+          "500": {
+            "description": "Lost communication with the server."
+          }
+        }
+      }
+    },
+    "/imagetotext": {
+      "post": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "tags": [
+          "Image Converter"
+        ],
+        "summary": "Image to text",
+        "description": "Converts an image into txt file",
+        "operationId": "post.imagetotext",
+        "requestBody": {
+          "description": "Please upload an image to covert:",
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/imagetotext"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Convertion process finished succesfully",
+            "content": {
+              "application/zip": {
+                "schema": {
+                  "$ref": "#/components/schemas/download"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid supplied file."
+          },
+          "404": {
+            "description": "File not found."
+          },
+          "500": {
+            "description": "Lost communication with the server."
+          }
+        }
+      }
+    },
+    "/pdftoimage": {
+      "post": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "tags": [
+          "PDF Utility"
+        ],
+        "summary": "Converts PDF file into image.",
+        "description": "",
+        "operationId": "post.pdftoimage",
+        "requestBody": {
+          "description": "Please upload a PDF file to convert:",
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/pdftoimage"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Convertion process finished succesfully",
+            "content": {
+              "application/zip": {
+                "schema": {
+                  "$ref": "#/components/schemas/download"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid supplied file."
+          },
+          "404": {
+            "description": "File not found."
+          },
+          "500": {
+            "description": "Lost communication with the server."
+          }
+        }
+      }
+    },
+    "/audiotoaudio": {
+      "post": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "tags": [
+          "Audio Converter"
+        ],
+        "summary": "Converts audio file to another of audio format file.",
+        "description": "",
+        "operationId": "post.audiotoaudio",
+        "requestBody": {
+          "description": "Please insert the audio file to convert:",
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/audiotoaudio"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Convertion process finished succesfully",
+            "content": {
+              "application/zip": {
+                "schema": {
+                  "$ref": "#/components/schemas/download"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid supplied file."
+          },
+          "404": {
+            "description": "File not found."
+          },
+          "500": {
+            "description": "Lost communication with the server."
+          }
+        }
+      }
+    },
+    "/audioincreasevolume": {
+      "post": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "tags": [
+          "Audio Converter"
+        ],
+        "summary": "Get converted type of audio file with increased volume",
+        "description": "Convert inserted audio file to another type of audio file with increased volume",
+        "operationId": "post.audioincreasevolume",
+        "requestBody": {
+          "description": "Please insert the audio file to convert and increased volume:",
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/audioincreasedvolume"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Convertion process finished succesfully",
+            "content": {
+              "application/zip": {
+                "schema": {
+                  "$ref": "#/components/schemas/download"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid supplied file."
+          },
+          "404": {
+            "description": "File not found."
+          },
+          "500": {
+            "description": "Lost communication with the server."
+          }
+        }
+      }
+    },
+    "/audioextractaudio": {
+      "post": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "tags": [
+          "Audio Converter"
+        ],
+        "summary": "Extracts an audio file from a video file",
+        "description": "",
+        "operationId": "post.audioextractaudio",
+        "requestBody": {
+          "description": "Please insert the video file to extract the audio:",
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/audioextractaudio"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Convertion process finished succesfully",
+            "content": {
+              "application/zip": {
+                "schema": {
+                  "$ref": "#/components/schemas/download"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid supplied file."
+          },
+          "404": {
+            "description": "File not found."
+          },
+          "500": {
+            "description": "Lost communication with the server."
+          }
+        }
+      }
+    },
+    "/audiomixaudio": {
+      "post": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "tags": [
+          "Audio Converter"
+        ],
+        "summary": "Merges two audio files in one audio file.",
+        "description": "",
+        "operationId": "post.audiomixaudio",
+        "requestBody": {
+          "description": "Please insert the audio files to merge:",
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/audiomixaudio"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Convertion process finished succesfully",
+            "content": {
+              "application/zip": {
+                "schema": {
+                  "$ref": "#/components/schemas/download"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid supplied file."
+          },
+          "404": {
+            "description": "File not found."
+          },
+          "500": {
+            "description": "Lost communication with the server."
+          }
+        }
+      }
+    },
+    "/texttranslator": {
+      "post": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "tags": [
+          "Text Translator"
+        ],
+        "summary": "Translates a text to any language",
+        "description": "",
+        "operationId": "post.text translator",
+        "requestBody": {
+          "description": "Please write a text you want translate:",
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/texttranslator"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Convertion process finished succesfully",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string",
+                  "example": "\"Hola, hoy seré su maestro de ceremonias.\"",
+                  "x-content-type": "text/plain"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid supplied file."
+          },
+          "404": {
+            "description": "File not found."
+          },
+          "500": {
+            "description": "Lost communication with the server."
+          }
+        }
+      }
+    },
+    "/metadatageter": {
+      "post": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "tags": [
+          "Get Metadata"
+        ],
+        "summary": "Gets metadata from a file",
+        "description": "",
+        "operationId": "post.metadatageter",
+        "requestBody": {
+          "description": "Please upload a file:",
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/metadatageter"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Convertion process finished succesfully",
+            "content": {
+              "application/zip": {
+                "schema": {
+                  "$ref": "#/components/schemas/download"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid supplied file."
+          },
+          "404": {
+            "description": "File not found."
+          },
+          "500": {
+            "description": "Lost communication with the server."
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    },
+    "schemas": {
+      "login": {
+        "required": [
+          "username",
+          "password"
+        ],
+        "type": "object",
+        "properties": {
+          "username": {
+            "type": "string",
+            "description": "input username",
+            "example": "converter_user"
+          },
+          "password": {
+            "type": "string",
+            "description": "input password",
+            "example": "12345weert"
+          }
+        }
+      },
+      "download": {
+        "required": [
+          "file_name"
+        ],
+        "type": "string",
+        "example": "\"http://converter.com/download?file_name=file_to_download.zip\""
+      },
+      "videotoimages": {
+        "required": [
+          "fps",
+          "input_file",
+          "output_file",
+          "checksum_param"
+        ],
+        "type": "object",
+        "properties": {
+          "input_file": {
+            "type": "string",
+            "description": "Choose the video to convert:",
+            "format": "binary"
+          },
+          "output_file": {
+            "type": "string",
+            "description": "Choose the output format:",
+            "example": "jpg",
+            "enum": [
+              "jpg",
+              "png",
+              "gif",
+              "bmp",
+              "tiff"
+            ]
+          },
+          "fps": {
+            "type": "string",
+            "description": "Specify the number of images per second <i>(Recommended: 1)</i>:",
+            "example": "1"
+          },
+          "checksum_param": {
+            "type": "string",
+            "description": "Specify the checksum param</i>:",
+            "example": "12345abcdef"
+          }
+        }
+      },
+      "videotovideo": {
+        "required": [
+          "input_file",
+          "output_file",
+          "checksum_param"
+        ],
+        "type": "object",
+        "properties": {
+          "input_file": {
+            "type": "string",
+            "description": "Choose the video to convert:",
+            "format": "binary",
+            "example": "UG9sbGl0b3MubXA0"
+          },
+          "output_file": {
+            "type": "string",
+            "description": "Choose the output video format:",
+            "default": "avi",
+            "enum": [
+              "avi",
+              "mov",
+              "ogg",
+              "mpg"
+            ]
+          },
+          "checksum_param": {
+            "type": "string",
+            "description": "Specify the checksum param</i>:",
+            "example": "12345abcdef"
+          }
+        }
+      },
+      "image": {
+        "required": [
+          "input_file",
+          "output_file",
+          "checksum_param"
+        ],
+        "type": "object",
+        "properties": {
+          "input_file": {
+            "type": "string",
+            "description": "Choose image to convert:",
+            "format": "binary",
+            "example": "UGF0aXRvcy5wbmc="
+          },
+          "output_file": {
+            "type": "string",
+            "description": "Choose output format:",
+            "default": "jpg",
+            "enum": [
+              "jpg",
+              "png",
+              "gif",
+              "bmp",
+              "tiff"
+            ]
+          },
+          "checksum_param": {
+            "type": "string",
+            "description": "Specify the checksum param</i>:",
+            "example": "12345abcdef"
+          }
+        }
+      },
+      "imageresize": {
+        "required": [
+          "input_file",
+          "new_size",
+          "output_file",
+          "checksum_param"
+        ],
+        "type": "object",
+        "properties": {
+          "input_file": {
+            "type": "string",
+            "description": "Choose the image to resize:",
+            "format": "binary",
+            "example": "UG9sbGl0b3MubXA0"
+          },
+          "output_file": {
+            "type": "string",
+            "description": "Choose the output format:",
+            "example": "jpg",
+            "enum": [
+              "jpg",
+              "png",
+              "gif",
+              "bmp",
+              "tiff"
+            ]
+          },
+          "new_size": {
+            "type": "string",
+            "description": "Specify the new size <i>(Percentage: 25 or size 640x480)</i>:",
+            "example": "25"
+          },
+          "checksum_param": {
+            "type": "string",
+            "description": "Specify the checksum param</i>:",
+            "example": "12345abcdef"
+          }
+        }
+      },
+      "imagerotate": {
+        "required": [
+          "grades",
+          "input_file",
+          "output_file",
+          "checksum_param"
+        ],
+        "type": "object",
+        "properties": {
+          "input_file": {
+            "type": "string",
+            "description": "Choose the image to rotate:",
+            "format": "binary",
+            "example": "UG9sbGl0b3MubXA0"
+          },
+          "output_file": {
+            "type": "string",
+            "description": "Choose the output format:",
+            "example": "jpg",
+            "enum": [
+              "jpg",
+              "png",
+              "gif",
+              "bmp",
+              "tiff"
+            ]
+          },
+          "grades": {
+            "type": "string",
+            "description": "Specify the number of degrees to rotate:",
+            "example": "30"
+          },
+          "checksum_param": {
+            "type": "string",
+            "description": "Specify the checksum param</i>:",
+            "example": "12345abcdef"
+          }
+        }
+      },
+      "imagetopdf": {
+        "required": [
+          "input_file",
+          "lang",
+          "output_file",
+          "checksum_param"
+        ],
+        "type": "object",
+        "properties": {
+          "input_file": {
+            "type": "string",
+            "description": "Choose image file to convert:",
+            "format": "binary",
+            "example": "UGF0aXRvcy5wbmc="
+          },
+          "output_file": {
+            "type": "string",
+            "example": "pdf",
+            "enum": [
+              "pdf"
+            ]
+          },
+          "lang": {
+            "type": "string",
+            "description": "Language encoding <i>(default: \"eng\", select \"spa\" to include latin special characters)</i>:",
+            "example": "eng",
+            "enum": [
+              "eng",
+              "spa",
+              "eng+spa"
+            ]
+          },
+          "checksum_param": {
+            "type": "string",
+            "description": "Specify the checksum param</i>:",
+            "example": "12345abcdef"
+          }
+        }
+      },
+      "imagetotext": {
+        "required": [
+          "input_file",
+          "lang",
+          "output_file",
+          "checksum_param"
+        ],
+        "type": "object",
+        "properties": {
+          "input_file": {
+            "type": "string",
+            "description": "Choose image file to convert:",
+            "format": "binary",
+            "example": "UGF0aXRvcy5wbmc="
+          },
+          "output_file": {
+            "type": "string",
+            "example": "txt",
+            "enum": [
+              "txt",
+              "pdf"
+            ]
+          },
+          "lang": {
+            "type": "string",
+            "description": "Language encoding <i>(default: \"eng\", select \"spa\" to include latin special characters)</i>:",
+            "example": "eng",
+            "enum": [
+              "eng",
+              "spa",
+              "eng+spa"
+            ]
+          },
+          "checksum_param": {
+            "type": "string",
+            "description": "Specify the checksum param</i>:",
+            "example": "12345abcdef"
+          }
+        }
+      },
+      "pdftoimage": {
+        "required": [
+          "input_file",
+          "output_file",
+          "quality",
+          "checksum_param"
+        ],
+        "type": "object",
+        "properties": {
+          "input_file": {
+            "type": "string",
+            "description": "Choose PDF file to convert:",
+            "format": "binary",
+            "example": "UGF0aXRvcy5wZGY="
+          },
+          "output_file": {
+            "type": "string",
+            "description": "Choose the output format:",
+            "example": "jpg",
+            "enum": [
+              "jpg",
+              "png",
+              "gif",
+              "bmp",
+              "tiff"
+            ]
+          },
+          "quality": {
+            "maximum": 100,
+            "minimum": 1,
+            "type": "integer",
+            "description": "Specify the % quality of the generated image <i>(Recommended: 90)</i>:",
+            "example": 90
+          },
+          "checksum_param": {
+            "type": "string",
+            "description": "Specify the checksum param</i>:",
+            "example": "12345abcdef"
+          }
+        }
+      },
+      "audiotoaudio": {
+        "required": [
+          "input_file",
+          "output_file",
+          "checksum_param"
+        ],
+        "type": "object",
+        "properties": {
+          "input_file": {
+            "type": "string",
+            "description": "Choose audio file to convert:",
+            "format": "binary",
+            "example": "UGF0aXRvcy53YXY="
+          },
+          "output_file": {
+            "type": "string",
+            "description": "Choose the output format:",
+            "example": "mp3",
+            "enum": [
+              "mp3",
+              "wav",
+              "ogg",
+              "flac",
+              "wma"
+            ]
+          },
+          "checksum_param": {
+            "type": "string",
+            "description": "Specify the checksum param</i>:",
+            "example": "12345abcdef"
+          }
+        }
+      },
+      "audioincreasedvolume": {
+        "required": [
+          "input_file",
+          "multiplier",
+          "output_file",
+          "checksum_param"
+        ],
+        "type": "object",
+        "properties": {
+          "input_file": {
+            "type": "string",
+            "description": "Choose audio file to convert:",
+            "format": "binary",
+            "example": "UGF0aXRvcy53YXY="
+          },
+          "output_file": {
+            "type": "string",
+            "description": "Choose the output format:",
+            "example": "mp3",
+            "enum": [
+              "mp3",
+              "wav",
+              "ogg",
+              "flac",
+              "wma"
+            ]
+          },
+          "multiplier": {
+            "type": "number",
+            "description": "Specify the multiplier <i>(To increase volumen write a value greater then 0, to decrease, the value should be lower than 0)</i>:",
+            "example": 2
+          },
+          "checksum_param": {
+            "type": "string",
+            "description": "Specify the checksum param</i>:",
+            "example": "12345abcdef"
+          }
+        }
+      },
+      "audioextractaudio": {
+        "required": [
+          "input_file",
+          "output_file",
+          "checksum_param"
+        ],
+        "type": "object",
+        "properties": {
+          "input_file": {
+            "type": "string",
+            "description": "Choose video file to convert:",
+            "format": "binary",
+            "example": "UGF0aXRvcy53YXY="
+          },
+          "output_file": {
+            "type": "string",
+            "description": "Choose the output format:",
+            "example": "mp3",
+            "enum": [
+              "mp3",
+              "wav",
+              "ogg",
+              "flac",
+              "wma"
+            ]
+          },
+          "checksum_param": {
+            "type": "string",
+            "description": "Specify the checksum param</i>:",
+            "example": "12345abcdef"
+          }
+        }
+      },
+      "audiomixaudio": {
+        "required": [
+          "input_file_1",
+          "input_file_2",
+          "output_file",
+          "checksum_param"
+        ],
+        "type": "object",
+        "properties": {
+          "input_file_1": {
+            "type": "string",
+            "description": "Choose an audio file:",
+            "format": "binary",
+            "example": "UGF0aXRvcy5tcDM="
+          },
+          "input_file_2": {
+            "type": "string",
+            "description": "Choose another audio file:",
+            "format": "binary",
+            "example": "UG9sbGl0b3MubXAz"
+          },
+          "output_file": {
+            "type": "string",
+            "description": "Choose the output format:",
+            "example": "mp3",
+            "enum": [
+              "mp3",
+              "wav",
+              "ogg",
+              "flac",
+              "wma"
+            ]
+          },
+          "checksum_param": {
+            "type": "string",
+            "description": "Specify the checksum param</i>:",
+            "example": "12345abcdef"
+          }
+        }
+      },
+      "texttranslator": {
+        "required": [
+          "language",
+          "text"
+        ],
+        "type": "object",
+        "properties": {
+          "text": {
+            "type": "string",
+            "description": "Write or paste text to translate:",
+            "example": "Hello, today I\\'m gonna be your Scrum Master."
+          },
+          "language": {
+            "type": "string",
+            "description": "Select the destination language:",
+            "example": "es",
+            "enum": [
+              "Spanish",
+              "English",
+              "Mexican"
+            ],
+            "x-enumNames": [
+              "sp",
+              "eng",
+              "mx"
+            ]
+          }
+        }
+      },
+      "metadatageter": {
+        "required": [
+          "input_file"
+        ],
+        "type": "object",
+        "properties": {
+          "input_file": {
+            "type": "string",
+            "format": "binary",
+            "example": "Q2F0c2FuZERvZ3MuYXZp"
+          }
+        }
+      }
+    },
+    "responses": {
+      "response200": {
+        "description": "Convertion process finished succesfully",
+        "content": {
+          "application/zip": {
+            "schema": {
+              "$ref": "#/components/schemas/download"
+            }
+          }
+        }
+      },
+      "response400": {
+        "description": "Invalid supplied file."
+      },
+      "response404": {
+        "description": "File not found."
+      },
+      "response500": {
+        "description": "Lost communication with the server."
+      }
+    }
+  }
+}
