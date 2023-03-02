@@ -33,5 +33,7 @@ Vagrant.configure("2") do |config|
     dockerserver.vm.provision "docker" do |d|
       d.run "hello-world"
     end
+    dockerserver.vm.provision :file, source: "../docker/docker-compose.ci.yaml", destination:"docker-compose.yaml"
+    dockerserver.vm.provision :docker_compose, yml:"/home/vagrant/docker-compose.yaml", run:"always"
   end
 end
