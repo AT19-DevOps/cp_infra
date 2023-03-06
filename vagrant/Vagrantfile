@@ -7,6 +7,8 @@ echo "I love Linux"
 date > ~/vagarnt_provisioned_at
 SCRIPT
 
+require 'net/http'
+
 Vagrant.configure("2") do |config|
 
   config.vm.box = "ubuntu/bionic64"
@@ -22,7 +24,7 @@ Vagrant.configure("2") do |config|
   config.vm.provision :file, source: "folder1", destination: "folder1"
 
   config.vm.define "server-1" do |dockerserver|
-    dockerserver.vm.network "private_network", ip: '192.168.33.60'
+    dockerserver.vm.network "private_network", ip: '192.168.56.60'
     dockerserver.vm.hostname = "dockerserver"
     dockerserver.vm.provision "shell", inline: "echo Hello!"
     dockerserver.vm.provision "shell", inline: $script

@@ -2,7 +2,7 @@
 version: '3.5'
 services:
   jenkins_server:
-    image: jenkinsci/blueocean
+    image: jenkins/jenkins
     container_name: jenkins_server
     restart: always
     ports:
