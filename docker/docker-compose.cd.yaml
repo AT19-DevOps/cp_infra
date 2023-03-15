@@ -42,3 +42,4 @@ volumes:
     name: godata_server
   go_server:
     name: go_server
+  
